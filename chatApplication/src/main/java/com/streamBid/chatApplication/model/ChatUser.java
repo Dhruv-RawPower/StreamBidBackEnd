@@ -37,6 +37,17 @@ public class ChatUser implements UserDetails {
 	
 	@Column(name = "role")
 	private String role;
+	
+	@Column(name = "image_url")
+	private String imageUrl;
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 	public long getId() {
 		return id;
@@ -97,11 +108,13 @@ public class ChatUser implements UserDetails {
 	@Override
 	public String toString() {
 		return "ChatUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", userName=" + userName + ", password=" + password + ", role=" + role + "]";
+				+ ", userName=" + userName + ", password=" + password + ", role=" + role + ", imageUrl=" + imageUrl
+				+ "]";
 	}
 
+
 	public ChatUser(long id, String firstName, String lastName, String email, String userName, String password,
-			String role) {
+			String role, String imageUrl) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -110,6 +123,7 @@ public class ChatUser implements UserDetails {
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
+		this.imageUrl = imageUrl;
 	}
 
 	public ChatUser() {

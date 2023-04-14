@@ -1,5 +1,7 @@
 package com.streamBid.chatApplication.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -8,6 +10,7 @@ import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,13 +97,31 @@ public class LoginController {
     }*/
     
     //Register User
-    @PostMapping("/saveChatUser")
-	public ResponseEntity<?> saveEmployee(@RequestBody ChatUser chatUser, HttpServletResponse response) {		
+    @PostMapping(value= "/saveChatUser", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public ResponseEntity<?> saveEmployee(@RequestParam(name = "credentials") String chatUser,  @RequestParam(value = "file", required = true) MultipartFile file, HttpServletResponse response) {		
 		
 		logger.info("In saveChatUser.");
+		ObjectMapper mapper = new ObjectMapper();
+		ChatUser chatObj = null;
+        try {
+        	 chatObj = mapper.readValue(chatUser, ChatUser.class);
+            System.out.println("ChatUser = " + chatObj);
+
+           
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		System.out.println(chatUser);
+		
+		String fileName = file.getOriginalFilename();
+	    try {
+	      file.transferTo( new File("C:\\Users\\dhruv\\Projects\\Angular\\Project\\StreamBid\\StreamBidAngular\\StreamBidAngularUI\\src\\assets\\images\\" + fileName));
+	    } catch (Exception e) {
+	      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    } 
+		
 		// save employee to database
-		chatUserService.saveChatUser(chatUser);
+		chatUserService.saveChatUser(chatObj);
 		logger.info("done post");
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
