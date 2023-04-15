@@ -83,7 +83,9 @@ public class LoginController {
         
         JwtResponse jwtResponse = new JwtResponse();
         jwtResponse.setFullName(map.get("firstName").toString().concat(" ").concat(map.get("lastName").toString()));
+        jwtResponse.setImageUrl(map.get("imageUrl").toString());
         jwtResponse.setToken(token);
+        System.out.println("jwtRespone "+ jwtResponse);
         return jwtResponse;
     }
 

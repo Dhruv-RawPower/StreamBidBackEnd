@@ -5,6 +5,7 @@ import java.util.Date;
 public class Message {
 	
 	    private String fullName;
+	    private String imageUrl;
 	    private String message;
 	    private String date;
 		public String getFullName() {
@@ -12,6 +13,12 @@ public class Message {
 		}
 		public void setFullName(String fullName) {
 			this.fullName = fullName;
+		}
+		public String getImageUrl() {
+			return imageUrl;
+		}
+		public void setImageUrl(String imageUrl) {
+			this.imageUrl = imageUrl;
 		}
 		public String getMessage() {
 			return message;
@@ -25,20 +32,23 @@ public class Message {
 		public void setDate(String date) {
 			this.date = date;
 		}
-		public Message(String fullName, String message, String date) {
-			super();
-			this.fullName = fullName;
-			this.message = message;
-			this.date = date;
+		@Override
+		public String toString() {
+			return "Message [fullName=" + fullName + ", imageUrl=" + imageUrl + ", message=" + message + ", date="
+					+ date + "]";
 		}
 		public Message() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
-		@Override
-		public String toString() {
-			return "Message [fullName=" + fullName + ", message=" + message + ", date=" + date + "]";
+		public Message(String fullName, String imageUrl, String message, String date) {
+			super();
+			this.fullName = fullName;
+			this.imageUrl = imageUrl;
+			this.message = message;
+			this.date = date;
 		}
+		
 
 	    
 }
